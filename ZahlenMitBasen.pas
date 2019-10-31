@@ -76,7 +76,6 @@ PROGRAM ZahlenMitBasen;
       END; (* IF *)
 
       value := Round(value/base);
-      //value := value - (base * newDigitInt);
 
       IF (decreaseInteger) THEN BEGIN
         Dec(value);
@@ -154,9 +153,9 @@ BEGIN (* ZahlenMitBasen *)
   ReadLn(b2);
 
   IF (b1 = b2) THEN BEGIN
-    Write(DigitsOf(Quot(v1, b1, v2, b2), b1), ' Basis: ', b1);
+    Write('Ergebnis: ', DigitsOf(Quot(v1, b1, v2, b2), b1), ' (Basis: ', b1, ')');
   END ELSE BEGIN
-      Write(Quot(v1, b1, v2, b2), ', Basis: 10');
+      Write('Ergebnis: ', Quot(v1, b1, v2, b2), ' (Basis: 10)');
   END; (* IF *)
   
 END. (* ZahlenMitBasen *)
