@@ -2,7 +2,7 @@ PROGRAM Zaehlproblem;
   const
     MAX = 100;
   type
-    IntegerArray = ARRAY [1..MAX] OF INTEGER;
+    IntegerArray = ARRAY [1..MAX] OF integer;
 
   FUNCTION DifferentValues(a: IntegerArray; n: integer): integer;
 

@@ -2,7 +2,7 @@ PROGRAM Diagonalsummen;
 
   const size = 4;
   type Matrix = ARRAY [1..size, 1..size] OF INTEGER;
-  type DiagonalSums = ARRAY [1..size] OF integer;
+  type DiagonalSums = ARRAY [1..size] OF INTEGER;
 
   PROCEDURE CalculateDiagonalSums(m: Matrix; VAR d: DiagonalSums);
 
@@ -24,7 +24,7 @@ PROGRAM Diagonalsummen;
 
 
   var input: Matrix;
-  var i, j: integer;
+  var i, j: INTEGER;
   var d: DiagonalSums;
 
 BEGIN (* Diagonalsummen *)
@@ -38,8 +38,13 @@ BEGIN (* Diagonalsummen *)
 
   CalculateDiagonalSums(input, d);
 
+  Write('Diagonalsummen: ');
   FOR i := 1 TO size DO BEGIN
-    Write(d[i], ', ');
+    IF (i = size) THEN BEGIN
+      Write(d[i]);
+    END ELSE BEGIN
+      Write(d[i], ', ');
+    END; (* IF *)
   END; (* FOR *)
 
 END. (* Diagonalsummen *)

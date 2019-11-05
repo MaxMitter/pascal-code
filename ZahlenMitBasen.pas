@@ -13,7 +13,7 @@ PROGRAM ZahlenMitBasen;
       Exit(-1);
     END; (* IF *)
 
-    IF (base > 9) THEN BEGIN
+    IF (base > 10) THEN BEGIN
       SetLength(helpChars, base - 10);
     END; (* IF *)
     
@@ -35,7 +35,7 @@ PROGRAM ZahlenMitBasen;
       END;
     END; (* FOR *)
 
-    ValueOf:= endSum; //For Testing
+    ValueOf:= endSum;
 
   END; (* ValueOf *)
 
@@ -72,7 +72,7 @@ PROGRAM ZahlenMitBasen;
       IF (Round(value/base) > value/base) THEN BEGIN
         decreaseInteger := true;
       END ELSE BEGIN
-        decreaseInteger := false;  
+        decreaseInteger := false;
       END; (* IF *)
 
       value := Round(value/base);
