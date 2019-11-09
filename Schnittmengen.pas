@@ -47,7 +47,6 @@ BEGIN (* Intersect *)
   END ELSE BEGIN
   END; (* IF *)
 
-  
 END; (* Intersect *)
   const max = 3;
   var zielArray: ARRAY [1..max] OF integer;
