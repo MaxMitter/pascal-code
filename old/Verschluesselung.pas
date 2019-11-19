@@ -37,5 +37,7 @@ BEGIN (* IsPossiblePair *)
 END; (* IsPossiblePair *)
 
 BEGIN (* Verschluesselung *)
-  Write(IsPossiblePair(str3, str4));
+  WriteLn('String 1: ', str3);
+  WriteLn('String 2: ', str4);
+  Write('Sind von der selben Quelle: ', IsPossiblePair(str3, str4));
 END. (* Verschluesselung *)

@@ -42,7 +42,7 @@ END; (* IsElement *)
       testNumber: integer;
       i: integer;
 BEGIN (* Main *)
-  Randomize;
+  //Randomize;
   FOR i := Low(testArray) TO High(testArray) DO BEGIN
     testArray[i] := Random(10);
   END; (* FOR *)
@@ -53,5 +53,7 @@ BEGIN (* Main *)
   FOR i := Low(testArray) TO High(testArray) DO BEGIN
     Write(testArray[i], ', ');
   END; (* FOR *)
-  Write('Found test number? ', IsElementFullEvalNoError(testArray, testNumber));
+  WriteLn('Found test number? (No Full Eval) ', IsElement(testArray, testNumber));
+  WriteLn('Found test number? (Full Eval no Error) ', IsElementFullEvalNoError(testArray, testNumber));
+  WriteLn('Found test number? (Full Eval) ', IsElementFullEval(testArray, testNumber));
 END.

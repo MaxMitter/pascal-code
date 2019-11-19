@@ -11,12 +11,11 @@ BEGIN (* BenefitForLuckyNr *)
   randNumber := SpinTheWheel;
 
   IF (luckyNr = randNumber) THEN BEGIN
-    BenefitForLuckyNr := bet * 35;
+    BenefitForLuckyNr := bet * 36 - bet;
   END ELSE BEGIN
     BenefitForLuckyNr := -bet;  
   END; (* IF *)
 
-  //Write(' LN: ', luckyNr, ' RN: ', randNumber, ' | ');
 END; (* BenefitForLuckyNr *)
 
 FUNCTION BenefitForEvenNr(bet: integer): integer;
@@ -24,12 +23,10 @@ FUNCTION BenefitForEvenNr(bet: integer): integer;
 BEGIN (* BenefitForEvenNr *)
   randNr := SpinTheWheel;
 
-  IF (randNr = 0) THEN BEGIN
+  IF (randNr = 0) OR (ODD(randNr)) THEN BEGIN
     BenefitForEvenNr := -bet;
-  END ELSE IF (NOT(ODD(randNr))) THEN BEGIN
-    BenefitForEvenNr := bet * 2 - bet;
   END ELSE BEGIN
-    BenefitForEvenNr := -bet;
+    BenefitForEvenNr := bet * 2 - bet;
   END; (* IF *)
 END; (* BenefitForEvenNr *)
 
@@ -48,7 +45,6 @@ BEGIN (* TestGameLuckyNumber *)
   maxMoney := money;
   WHILE (money > 0) DO BEGIN
     newMoney := money + BenefitForLuckyNr(luckyNr, 1);
-    //WriteLn(money, ' ', newMoney);
 
     IF (newMoney > money) THEN BEGIN
       Inc(gamesWon);
@@ -74,7 +70,6 @@ BEGIN (* TestGameEven *)
   maxMoney := money;
   WHILE (money > 0) DO BEGIN
     newMoney := money + BenefitForEvenNr(1);
-    //WriteLn(money, ' ', newMoney);
 
     IF (newMoney > money) THEN BEGIN
       Inc(gamesWon);
@@ -99,6 +94,6 @@ BEGIN (* Roulette *)
   Write('Enter your lucky number (0 - 36): ');
   Read(luckyNr);
   TestGameLuckyNumber(luckyNr, 1000);
-  WriteLn;
+  WriteLn('Test Even Number:');
   TestGameEven(1000);
 END. (* Roulette *)

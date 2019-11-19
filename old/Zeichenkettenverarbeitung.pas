@@ -16,12 +16,12 @@ BEGIN
   Trim := DeleteSubString(s, ' ');
 END; (* Trim *)
 
-  var str: string;
+  const stringToTrim = 'Lorem';
+        subString = 'Lorem';
+
 BEGIN (* Main *)
-  Write('Please Enter string to trim: ');
-  ReadLn(str);
-
-  Write(Trim('asdf adsfasdf  asdfs fsa'));
-
-  Write(DeleteSubString('Test string mucho gay', 'gay'));
+  WriteLn('To Trim: ', stringToTrim);
+  WriteLn('Output: ', Trim(stringToTrim));
+  WriteLn('Delete ', subString, ' from ', stringToTrim);
+  Write('Output: ', DeleteSubString(stringToTrim, subString));
 END.

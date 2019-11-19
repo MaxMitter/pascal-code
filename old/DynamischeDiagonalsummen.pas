@@ -39,8 +39,14 @@ BEGIN (* DynamischeDiagonalsummen *)
 
   CalculateDiagonalSums(matrix, size, d);
 
+  Write('Diagonalsummen: ');
   FOR i := Low(d) TO High(d) DO BEGIN
-    WriteLn('Sum: ', d[i]);
+    IF (i = High(d)) THEN BEGIN
+      Write(d[i]);
+    END ELSE BEGIN
+      Write(d[i], ', ');
+    END; (* IF *)
+    
   END; (* FOR *)
 
 END. (* DynamischeDiagonalsummen *)
