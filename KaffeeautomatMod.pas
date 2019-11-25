@@ -1,37 +1,33 @@
-PROGRAM Kaffeeautomat;
+UNIT KaffeeautomatMod;
 
-  TYPE Coins = RECORD
+
+INTERFACE
+
+TYPE Coins = RECORD
                 OneEuro: integer;
                 FiftyCent: integer;
                 TenCent: integer;
               END;
 
+VAR errNotEnoughChange: integer;
+    coinsInput: Coins;
+    coinsOutput: Coins;
+
+PROCEDURE ResetMachine;
+PROCEDURE CoffeeButtonPressed(input: Coins; var change: Coins);
+
+IMPLEMENTATION
+
+  
   const coffeePrize = 40;
 
-  var changeBank: Coins;
   var totalChange: Coins;
-  var coinsInput: Coins;
-  var coinsOutput: Coins;
-  var totalCredit: integer;
-  var errNotEnoughChange: integer;
-
-  PROCEDURE Init;
-  BEGIN (* Init *)
-    changeBank.OneEuro := 0;
-    changeBank.FiftyCent := 5;
-    changeBank.TenCent := 10;
-    coinsInput.OneEuro := 0;
-    coinsInput.FiftyCent := 0;
-    coinsInput.TenCent := 0;
-    totalChange.OneEuro := 0;
-    totalChange.FiftyCent := 0;
-    totalChange.TenCent := 0;
-    totalCredit := 0;
-    errNotEnoughChange := 0;
-  END; (* Init *)
+      totalCredit: integer;
+      changeBank: Coins;
 
   PROCEDURE ResetMachine;
-  BEGIN (* ResetMachine *)
+
+  BEGIN
     coinsInput.OneEuro := 0;
     coinsInput.FiftyCent := 0;
     coinsInput.TenCent := 0;
@@ -39,7 +35,7 @@ PROGRAM Kaffeeautomat;
     totalChange.FiftyCent := 0;
     totalChange.TenCent := 0;
     totalCredit := 0;
-  END; (* ResetMachine *)
+  END;
 
   FUNCTION CalculateChange(credit: integer): Coins;
 
@@ -83,7 +79,7 @@ PROGRAM Kaffeeautomat;
   END; (* CalculateChange *)
 
   PROCEDURE CoffeeButtonPressed(input: Coins; var change: Coins);
-  BEGIN (* CoffeeButtonPressed *)
+  BEGIN
     totalCredit := input.OneEuro * 100;
     totalCredit := totalCredit + input.FiftyCent * 50;
     totalCredit := totalCredit + input.TenCent * 10;
@@ -109,36 +105,18 @@ PROGRAM Kaffeeautomat;
     end else BEGIN
       WriteLn('Thank you, enjoy your coffee!');
     END; (* IF *)
-  END; (* CoffeeButtonPressed *)
+  END;
 
-  var x: integer;
-BEGIN (* Kaffeeautomat *)
-  Init;
-
-  while(errNotEnoughChange < 3) do BEGIN
-    WriteLn();
-    Write('Enter the amount of money you wish to input (10 for 10 Cents, 50 for 50 Cents, 1 for 1 Euro, 0 to end input): ');
-    Read(x);
-    While(x <> 0) do BEGIN
-      IF (x = 1) THEN BEGIN
-        Inc(CoinsInput.OneEuro);
-      END ELSE IF (x = 50) THEN BEGIN
-        Inc(CoinsInput.FiftyCent);
-      END ELSE IF (x = 10) THEN BEGIN
-        Inc(CoinsInput.TenCent);
-      END ELSE BEGIN
-        Write('Invalid input, terminating program.');
-        HALT;
-      END; (* IF *)
-
-      Read(x);
-    END; (* WHILE *)
-    
-    CoffeeButtonPressed(CoinsInput, CoinsOutput);
-
-    ResetMachine;
-  END; (* WHILE *)
-
-  WriteLn();
-  WriteLn('ERROR: Out of order!');
-END. (* Kaffeeautomat *)
+BEGIN (* KaffeeautomatMod *)
+  changeBank.OneEuro := 0;
+  changeBank.FiftyCent := 5;
+  changeBank.TenCent := 10;
+  coinsInput.OneEuro := 0;
+  coinsInput.FiftyCent := 0;
+  coinsInput.TenCent := 0;
+  totalChange.OneEuro := 0;
+  totalChange.FiftyCent := 0;
+  totalChange.TenCent := 0;
+  totalCredit := 0;
+  errNotEnoughChange := 0;
+END. (* KaffeeautomatMod *)

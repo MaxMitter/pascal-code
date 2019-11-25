@@ -2,6 +2,25 @@ PROGRAM SplitProg;
 
   const splitChar = '/';
 
+FUNCTION WithoutLastChar(s: string): string;
+  var str: string;
+      i: integer;
+BEGIN (* WithoutLastChar *)
+  if Length(s) > 0 then
+    SetLength(s, Length(s) - 1);
+
+  WithoutLastChar := s;
+END; (* WithoutLastChar *)
+
+FUNCTION EqualsIgnoreCase(a, b: string): boolean;
+BEGIN (* EqualsIgnoreCase *)
+  if Upcase(a) = Upcase(b) then begin
+    EqualsIgnoreCase := true;
+  end else begin
+    EqualsIgnoreCase := false;
+  end; (* IF *) 
+END; (* EqualsIgnoreCase *)
+
 PROCEDURE ClearArray(var words: array of string);
   var i: integer;
 BEGIN (* ClearArray *)
@@ -33,6 +52,12 @@ END; (* Split *)
       nrWords, i: integer;
       s: string;
 BEGIN
+
+  WriteLn(EqualsIgnoreCase('Pascal', 'paScAL'));
+  WriteLn(EqualsIgnoreCase('tESt', 'test'));
+  WriteLn(EqualsIgnoreCase('test', 'teSt2'));
+  Write(WithoutLastChar('Hello World'));
+
   REPEAT
     ClearArray(words);
     Write('Text: '); ReadLn(s);
