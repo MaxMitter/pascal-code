@@ -3,8 +3,6 @@ PROGRAM SplitProg;
   const splitChar = '/';
 
 FUNCTION WithoutLastChar(s: string): string;
-  var str: string;
-      i: integer;
 BEGIN (* WithoutLastChar *)
   if Length(s) > 0 then
     SetLength(s, Length(s) - 1);
@@ -44,7 +42,7 @@ BEGIN (* Split *)
         Inc(wordsPos);
     END; (* IF *)
   END; (* FOR *)
-  nrOfWords := wordsPos + 1;
+  nrOfWords := Length(words);
 END; (* Split *)
 
 
@@ -53,10 +51,14 @@ END; (* Split *)
       s: string;
 BEGIN
 
-  WriteLn(EqualsIgnoreCase('Pascal', 'paScAL'));
-  WriteLn(EqualsIgnoreCase('tESt', 'test'));
-  WriteLn(EqualsIgnoreCase('test', 'teSt2'));
-  Write(WithoutLastChar('Hello World'));
+  WriteLn('Is "Pascal" and "paScAL" equal? ', EqualsIgnoreCase('Pascal', 'paScAL'));
+  WriteLn('Is "tESt" and "test" equal? ', EqualsIgnoreCase('tESt', 'test'));
+  WriteLn('Is "test" and "test2" equal? ', EqualsIgnoreCase('test', 'test2'));
+  WriteLn();
+  WriteLn('Hello World without last char: ', WithoutLastChar('Hello World'));
+  WriteLn('Test without last char: ', WithoutLastChar('test'));
+  WriteLn('Lorem ipsum without last char: ', WithoutLastChar('Lorem ipsum'));
+  WriteLn();
 
   REPEAT
     ClearArray(words);
