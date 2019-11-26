@@ -38,8 +38,10 @@ BEGIN (* Split *)
     if s[i] <> splitChar then BEGIN
       words[wordsPos] := words[wordsPos] + s[i];
     end else if s[i] = splitChar then BEGIN
-      if s[i - 1] <> splitChar then
-        Inc(wordsPos);
+      if i <> 1 then begin
+        if s[i - 1] <> splitChar then
+          Inc(wordsPos);
+      end; (* IF *)
     END; (* IF *)
   END; (* FOR *)
   nrOfWords := Length(words);
