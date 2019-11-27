@@ -1,0 +1,36 @@
+Zeiger sind Datentypen
+
+TYPE IntPointer = ^integer;
+(* Ist ein Zeiger auf einen integer *)
+
+VAR p: IntPointer;
+    i: integer;
+
+p := @i; (* p zeigt auf i *)
+(* @ = Adressoperator, erzeugt einen Zeiger auf die Variable *)
+
+^-Operator
+Write(p^) (* Gibt den Wert aus, auf den p zeigt *)
+p^ := 17; (* Variablen können indirekt über den Zeiger geändert werden *)
+
+
+
+ARBEITEN MIT HEAP
+Standardfunktionen in Pascal:
+  New(p: PointerType); (* reserviert Speicher am Heap und setzt p *)
+  Dispose(p: PointerType); (* gibt reservierten Speicher wieder frei / Pointer ist immer noch da, nur Speicher wird nicht mehr beansprucht*)
+                           (* darf nicht verwendet werden! Obwohl kein Compiler- oder Laufzeitfehler *)
+  Problem Speicherleichen
+    New(p);
+    New(q);
+    p := q;
+
+Pointer initialisieren:
+  p := NIL; (* NIL => literal, = null für Pointer *)
+      Longint(NIL) => 0
+
+Empfehlung: nach Dispose() Pointer auf NIL setzen
+  Dispose(p);
+  p := NIL;
+
+  p^ := ... -> Laufzeitfehler
