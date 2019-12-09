@@ -1,0 +1,4 @@
+*.exe
+old/*.exe
+*.o
+old/*.o

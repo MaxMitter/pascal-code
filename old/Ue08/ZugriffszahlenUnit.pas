@@ -15,7 +15,6 @@ INTERFACE
 
   PROCEDURE ReadIP(ipStr: string; var ip: IpAddr);
   PROCEDURE WriteIP(ip: IpAddr);
-  FUNCTION IsSorted(l: IpAddrList): boolean;
   PROCEDURE Append(var l: IpAddrList; n: IPAddrNodePtr);
   PROCEDURE Prepend(var l: IpAddrList; n: IPAddrNodePtr);
   FUNCTION FindNode(l: IpAddrList; x: IpAddr): IPAddrNodePtr;
@@ -23,9 +22,8 @@ INTERFACE
   PROCEDURE InitList(var l: IpAddrList);
   FUNCTION NewNode(x: IpAddr): IPAddrNodePtr;
   PROCEDURE NewAccess(var l: IPAddrList; x: IpAddr);
-  PROCEDURE WriteNode(n: IPAddrNodePtr);
   PROCEDURE WriteList(l: IPAddrList);
-  FUNCTION IsEqual(a, b: IPAddr): boolean;
+
 IMPLEMENTATION
 
   FUNCTION IsSmaller(a, b: IPAddr): boolean;
@@ -132,16 +130,6 @@ IMPLEMENTATION
       Write(ip[1], '.', ip[2], '.', ip[3], '.', ip[4]);
     END;
 
-  FUNCTION IsSorted(l: IpAddrList): boolean;
-    var cur : IPAddrNodePtr;
-    BEGIN
-      cur := l^.next;
-      while (cur <> l) AND (IsSmaller(cur^.prev^.addr, cur^.addr)) do
-        cur := cur^.next;
-      
-      IsSorted := cur <> l;
-    END;
-
   PROCEDURE InsertSorted(var l: IpAddrList; n: IPAddrNodePtr);
     var succ: IPAddrNodePtr;
     BEGIN
@@ -179,12 +167,7 @@ IMPLEMENTATION
         Inc(node^.count);
     END;
 
-  PROCEDURE WriteNode(n: IPAddrNodePtr);
-    BEGIN
-      Write('IP: ');
-      WriteIP(n^.addr);
-      WriteLn(' Count: ', n^.count);
-    END;
+
   PROCEDURE WriteList(l: IPAddrList);
     var cur: IPAddrNodePtr;
     BEGIN
@@ -193,10 +176,9 @@ IMPLEMENTATION
       while cur <> l do begin
         Write('->');
         WriteIp(cur^.addr);
-        Write(', ', cur^.count, ' Times');
+        WriteLn(', ', cur^.count, ' Time(s) Accessed');
         cur := cur^.next;
       end;
-      Write('-|');
     END;
 BEGIN
 END.

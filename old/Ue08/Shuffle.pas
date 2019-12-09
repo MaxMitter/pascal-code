@@ -104,7 +104,7 @@ var i: integer;
 BEGIN
   InitList(l);
   FOR i := 1 to n do begin
-    Append(l, NewNode(i));
+    Append(l, NewNode(Random(20)));
   end; (* FOR *)
 
   WriteList(l);
