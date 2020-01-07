@@ -14,7 +14,18 @@ PROGRAM MirrorText;
         Mirror := s;
     END; (* Mirror *)
 
+  PROCEDURE ReadString;
+    var ch: char;
+    BEGIN (* ReadString *)
+      Read(ch);
+      if ch <> Chr(13) then
+        ReadString();
+      Write(ch);
+    END; (* ReadString *)
+
 BEGIN (* Mirror *)
   WriteLn(Mirror('test'));
   WriteLn(Mirror('this is a test sentence'));
+  WriteLn(Mirror('nailimixaM'));
+  ReadString();
 END. (* Mirror *)

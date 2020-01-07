@@ -17,10 +17,12 @@ PROGRAM WishListAnalyzer;
   var s: string;
 BEGIN (* WishListAnalyzer *)
   NewWishList(wl);
+  Write('Please enter "<Child>: <Present>": ');
   ReadLn(s);
 
   while s <> '' do begin
     AddPresentToList(s);
+    Write('Please enter "<Child>: <Present>": ');
     ReadLn(s);
   end; (* WHILE *)
 

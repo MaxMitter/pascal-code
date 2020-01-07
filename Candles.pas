@@ -3,20 +3,20 @@ PROGRAM Candles;
   FUNCTION CalculateCandles(height: integer): integer;
     BEGIN (* CalculateCandles *)
       if height > 1 then
-        CalculateCandles := 3 * CalculateCandles(height - 1) + CalculateCandles(height - 2)
+        CalculateCandles := 3 * CalculateCandles(height - 1) + 1
+      else if height = 1 then
+        CalculateCandles := 1
       else
-        CalculateCandles := 1;
+        CalculateCandles := 0;
     END; (* CalculateCandles *)
 
   FUNCTION CalculateCandlesIterative(height: integer): integer;
-    var sum, i, prev: integer;
+    var sum, i: integer;
     BEGIN (* CalculateCandlesIterative *)
       if height > 0 then begin
-        sum := 1;
-        prev := 0;
+        sum := 0;
         for i := 1 to height do begin
-          sum := sum + prev * 3;
-          prev := sum - prev;
+          sum := 1 + sum * 3;
         end; (* FOR *)
       end else
         sum := 0;

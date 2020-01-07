@@ -102,7 +102,7 @@ IMPLEMENTATION
       AppendPersonList(l, node);
     END; (* NewPersonNode *)
 
-  PROCEDURE AppendWishList(l: WishList; n: WishNodePtr);
+  PROCEDURE AppendWishList(var l: WishList; n: WishNodePtr);
     BEGIN (* AppendWishList *)
       n^.prev := l^.prev;
       n^.next := l;
@@ -110,7 +110,7 @@ IMPLEMENTATION
       l^.prev := n;
     END; (* AppendWishList *)
 
-  PROCEDURE NewWishNode(l: WishList; present: string);
+  PROCEDURE NewWishNode(var l: WishList; present: string);
     var node: WishNodePtr;
     BEGIN (* NewWishNode *)
       New(node);
