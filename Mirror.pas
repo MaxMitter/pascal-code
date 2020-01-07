@@ -24,8 +24,9 @@ PROGRAM MirrorText;
     END; (* ReadString *)
 
 BEGIN (* Mirror *)
-  WriteLn(Mirror('test'));
+  { WriteLn(Mirror('test'));
   WriteLn(Mirror('this is a test sentence'));
-  WriteLn(Mirror('nailimixaM'));
+  WriteLn(Mirror('Maximilian')); }
+  Write('Please enter a word to Mirror: ');
   ReadString();
 END. (* Mirror *)

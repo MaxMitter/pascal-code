@@ -25,19 +25,19 @@ PROGRAM Candles;
     END; (* CalculateCandlesIterative *)
 
 BEGIN (* Candles *)
-  WriteLn(CalculateCandles(0));
-  WriteLn(CalculateCandles(1));
-  WriteLn(CalculateCandles(2));
-  WriteLn(CalculateCandles(3));
-  WriteLn(CalculateCandles(4));
-  WriteLn(CalculateCandles(5));
-  WriteLn(CalculateCandles(6));
+  WriteLn('Hoehe 0: ', CalculateCandles(0), ' Kerzen');
+  WriteLn('Hoehe 1: ', CalculateCandles(1), ' Kerzen');
+  WriteLn('Hoehe 2: ', CalculateCandles(2), ' Kerzen');
+  WriteLn('Hoehe 3: ', CalculateCandles(3), ' Kerzen');
+  WriteLn('Hoehe 4: ', CalculateCandles(4), ' Kerzen');
+  WriteLn('Hoehe 5: ', CalculateCandles(5), ' Kerzen');
+  WriteLn('Hoehe 6: ', CalculateCandles(6), ' Kerzen');
   WriteLn();
-  WriteLn(CalculateCandlesIterative(0));
-  WriteLn(CalculateCandlesIterative(1));
-  WriteLn(CalculateCandlesIterative(2));
-  WriteLn(CalculateCandlesIterative(3));
-  WriteLn(CalculateCandlesIterative(4));
-  WriteLn(CalculateCandlesIterative(5));
-  WriteLn(CalculateCandlesIterative(6));
+  WriteLn('Hoehe 0: ', CalculateCandlesIterative(0), ' Kerzen');
+  WriteLn('Hoehe 1: ', CalculateCandlesIterative(1), ' Kerzen');
+  WriteLn('Hoehe 2: ', CalculateCandlesIterative(2), ' Kerzen');
+  WriteLn('Hoehe 3: ', CalculateCandlesIterative(3), ' Kerzen');
+  WriteLn('Hoehe 4: ', CalculateCandlesIterative(4), ' Kerzen');
+  WriteLn('Hoehe 5: ', CalculateCandlesIterative(5), ' Kerzen');
+  WriteLn('Hoehe 6: ', CalculateCandlesIterative(6), ' Kerzen');
 END. (* Candles *)
