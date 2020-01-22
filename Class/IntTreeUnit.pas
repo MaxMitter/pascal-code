@@ -15,6 +15,7 @@ PROCEDURE WriteTreePreOrder(t: Tree);
 PROCEDURE WriteTreeInOrder(t: Tree);
 PROCEDURE WriteTreePostOrder(t: Tree);
 FUNCTION NumNodes(t: Tree): integer;
+PROCEDURE DisposeTree(var t: Tree);
 
 (* FUNCTIONS For Search Trees *)
 FUNCTION IsSorted(t: Tree): boolean;
@@ -23,6 +24,17 @@ FUNCTION FindNode(t: Tree; x: integer): NodePtr;
 PROCEDURE Delete(t: Tree; x: integer);
 
 IMPLEMENTATION
+
+  PROCEDURE DisposeTree(var t: Tree);
+    BEGIN
+      if t <> NIL then begin
+        DisposeTree(t^.left);
+        DisposeTree(t^.right);
+        Dispose(t);
+        t := NIL;
+      end;
+    END; (* DisposeTree *)
+
   PROCEDURE Delete(t: Tree; x: integer);
     var toDel, cur, repl, prev, prevR, curR: NodePtr;
     BEGIN
