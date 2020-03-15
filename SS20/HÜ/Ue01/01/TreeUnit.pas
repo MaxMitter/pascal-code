@@ -1,5 +1,4 @@
 UNIT TreeUnit;
-
 INTERFACE
 
 TYPE NodePtr = ^Node;
@@ -11,10 +10,6 @@ TYPE NodePtr = ^Node;
      Tree = NodePtr;
 
 FUNCTION NewNode(x: string): NodePtr;
-PROCEDURE WriteTreePreOrder(t: Tree);
-PROCEDURE WriteTreeInOrder(t: Tree);
-PROCEDURE WriteTreePostOrder(t: Tree);
-FUNCTION NumNodes(t: Tree): integer;
 PROCEDURE DisposeTree(var t: Tree);
 FUNCTION GetHighestCount(t: Tree): NodePtr;
 
@@ -22,7 +17,6 @@ FUNCTION GetHighestCount(t: Tree): NodePtr;
 FUNCTION IsSorted(t: Tree): boolean;
 PROCEDURE Insert(var t: Tree; x: string);
 FUNCTION FindNode(t: Tree; x: string): NodePtr;
-PROCEDURE Delete(t: Tree; x: string);
 
 IMPLEMENTATION
 
@@ -35,55 +29,6 @@ IMPLEMENTATION
         t := NIL;
       end;
     END; (* DisposeTree *)
-
-  PROCEDURE Delete(t: Tree; x: string);
-    var toDel, cur, repl, prev, prevR, curR: NodePtr;
-    BEGIN
-      prev := NIL;
-      cur := t;
-      prevR := NIL;
-      while (cur <> NIL) AND (cur^.val <> x) do begin
-        prev := cur;
-        if x <= cur^.val then
-          cur := cur^.left
-        else
-          cur := cur^.right;
-      end; (* WHILE *)
-
-      if cur <> NIL then begin
-        toDel := cur;
-        repl := NIL;
-
-        if toDel^.right <> NIL then begin
-          repl := toDel^.right;
-
-          if repl^.left <> NIL then begin
-            prevR := repl;
-            curR := repl^.left;
-            while curR <> NIL do begin
-              prevR := curR;
-              curR := curR^.left;
-            end; (* WHILE *)
-          end else prevR := NIL;
-        end; (* IF *)
-
-        if prevR = NIL then
-          repl := toDel^.left
-        else begin
-          prevR^.left := toDel^.left;
-        
-        if prev = NIL then
-          t := repl
-        else begin
-          if toDel^.val <= prev^.val then
-            prev^.left := repl
-          else
-            prev^.right := repl;
-          Dispose(toDel);
-          end; (* IF *)
-        end; (* IF *)
-      end; (* IF *)
-    END;
 
   FUNCTION FindNode(t: Tree; x: string): NodePtr;
     BEGIN
@@ -116,8 +61,7 @@ IMPLEMENTATION
   PROCEDURE Insert(var t: Tree; x: string);
     var n: NodePtr;
     BEGIN
-      if not(IsSorted(t)) then HALT;
-
+      //if not(IsSorted(t)) then HALT;
       if t = NIL then begin
         n := NewNode(x);
         t := n;
@@ -138,16 +82,6 @@ IMPLEMENTATION
       n^.left := NIL;
       n^.right := NIL;
       NewNode := n;
-    END;
-
-  PROCEDURE WriteTreePreOrder(t: Tree);
-
-    BEGIN
-      if t <> NIL then begin
-        Write(t^.val, ' ');
-        WriteTreePreOrder(t^.left);
-        WriteTreePreOrder(t^.right);
-      end;
     END;
 
   FUNCTION GetHighestCount(t: Tree): NodePtr;
@@ -175,30 +109,5 @@ IMPLEMENTATION
         else GetHighestCount := r;
       end; (* IF *)
     END;
-
-  PROCEDURE WriteTreeInOrder(t: Tree);
-    BEGIN
-      if t <> NIL then begin
-        WriteTreeInOrder(t^.left);
-        Write(t^.val, ' ');
-        WriteTreeInOrder(t^.right);
-      end;
-    END;
-  
-  PROCEDURE WriteTreePostOrder(t: Tree);
-    BEGIN
-      WriteTreePostOrder(t^.left);
-      WriteTreePostOrder(t^.right);
-      Write(t^.val, ' ');
-    END;
-
-  FUNCTION NumNodes(t: Tree): integer;
-    BEGIN
-      if t <> NIL then
-        NumNodes := 1 + NumNodes(t^.left) + NumNodes(t^.right)
-      else
-        NumNodes := 0;
-    END;
-
 BEGIN
 END.
