@@ -13,12 +13,6 @@ PROGRAM WordCountHashProbing;
 
 BEGIN (* WordCountHashProbing *)
 
-{   InitHashTable(table);
-  Insert(table, 'test');
-  Insert(table, 'test2');
-  Insert(table, 'test');
-  WriteHashTable(table); }
-
   WriteLn('Starting Wordcounter with Hash Probing...');
   OpenFile('Kafka.txt', toLower);
   StartTimer;
