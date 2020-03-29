@@ -21,10 +21,10 @@ PROGRAM WildCardPatternMatching;
   FUNCTION Equals(a, b: STRING): BOOLEAN;
     BEGIN (* Equals *)
       Inc(charComps);
-      Equals := (a = b) OR (b = '?');
+      Equals := (a = b);
   END; (* Equals *)
 
-  FUNCTION BruteSearchLR(s, p: STRING): INTEGER;
+  FUNCTION BruteSearchLR(s, p: STRING): BOOLEAN;
     VAR sLen, pLen: INTEGER;
         i, j: INTEGER;
     BEGIN (* BruteSearchLR *)
@@ -32,13 +32,13 @@ PROGRAM WildCardPatternMatching;
       pLen := Length(p);
 
       IF (pLen = 0) OR (sLen = 0) OR (pLen > sLen) THEN BEGIN
-        BruteSearchLR := 0;
+        BruteSearchLR := FALSE;
       END ELSE BEGIN
         i := 1;
         j := 1;
 
         REPEAT
-          IF (Equals(s[i], p[j])) THEN BEGIN
+          IF (Equals(s[i], p[j]) OR Equals(p[j], '?')) THEN BEGIN
             Inc(i);
             Inc(j);
           END ELSE BEGIN
@@ -48,46 +48,38 @@ PROGRAM WildCardPatternMatching;
         UNTIL ((j > pLen) OR (i > sLen)); (* REPEAT *)
 
         IF (j > pLen) THEN BEGIN
-          BruteSearchLR := i - pLen;
+          BruteSearchLR := TRUE;
         END ELSE BEGIN
-          BruteSearchLR := 0;
+          BruteSearchLR := FALSE;
         END; (* IF *)
       END; (* IF *)
   END; (* BruteSearchLR *)
 
-  FUNCTION BruteSearchWithWildCard(s, p: STRING): BOOLEAN;
-    VAR i: INTEGER;
-        hasOnlyStars: BOOLEAN;
-        sLen, pLen: INTEGER;
-    BEGIN (* BruteSearchWithWildCard *)
-      sLen := Length(s);
-      pLen := Length(p);
-      IF((sLen = 1) AND (pLen = 1)) THEN
-        BruteSearchWithWildCard := Equals(s, p)
-      ELSE IF (sLen = 1) THEN BEGIN
-        hasOnlyStars := TRUE;
-        FOR i := 1 TO pLen - 1 DO BEGIN
-          IF (NOT Equals(p[i], '*')) THEN
-            hasOnlyStars := FALSE;
-        END; (* FOR *)
-        BruteSearchWithWildCard := hasOnlyStars;
-      END ELSE IF (pLen = 1) THEN
-        BruteSearchWithWildCard := FALSE
-      ELSE BEGIN
-        IF (Equals(s[1], p[1]) OR (p[1] = '*')) THEN BEGIN
-          IF (p[1] = '*') THEN BEGIN
-            IF (Equals(s[1], p[2])) THEN
-              Delete(p, 1, 2);
+  FUNCTION BruteForceWithWildCard(s, p: STRING): BOOLEAN;
+    BEGIN (* BruteForceWithWildCard *)
+      IF (Equals(s, p)) THEN BEGIN
+        BruteForceWithWildCard := TRUE;
+      END ELSE BEGIN
+        IF (Equals(s[1], p[1])) THEN BEGIN
+          Delete(s, 1, 1);
+          Delete(p, 1, 1);
+          BruteForceWithWildCard := BruteForceWithWildCard(s, p);
+        END ELSE IF (Equals('*', p[1])) THEN BEGIN
+          IF (Equals(s[1], p[2])) THEN
+            Delete(p, 1, 1)
+          ELSE IF (Equals('*', p[2])) THEN BEGIN
+            REPEAT
+              Delete(p, 1, 1);
+            UNTIL (NOT Equals('*', p[2]));
+          END ELSE
             Delete(s, 1, 1);
-            BruteSearchWithWildCard := BruteSearchWithWildCard(s, p);
-          END ELSE BEGIN
-            Delete(s, 1, 1);
-            Delete(p, 1, 1);
-            BruteSearchWithWildCard := BruteSearchWithWildCard(s, p);
-          END; (* IF *)
-        END; (* IF *)
+
+          BruteForceWithWildCard := BruteForceWithWildCard(s, p);
+        END ELSE BEGIN
+          BruteForceWithWildCard := FALSE;
+        END; (* IF *)    
       END; (* IF *)
-  END; (* BruteSearchWithWildCard *)
+  END; (* BruteForceWithWildCard *)
 
   PROCEDURE TestPatternMatcher(pm: PatternMatcher; pmName: STRING; s, p: STRING);
     BEGIN (* TestPatternMatcher *)
@@ -106,7 +98,7 @@ BEGIN (* WildCardPatternMatching *)
     ReadLn(s);
     Write('Enter p > ');
     ReadLn(p);
-
-    TestPatternMatcher(BruteSearchWithWildCard, 'BruteSearchWithWildCard', s, p);
+    //TestPatternMatcher(BruteSearchLR, 'BruteSearchLRWith?', s, p);
+    TestPatternMatcher(BruteForceWithWildCard, 'BruteSearchWithWildCard', s, p);
   UNTIL ((s = '') AND (p = '')); (* REPEAT *)
 END. (* WildCardPatternMatching *)

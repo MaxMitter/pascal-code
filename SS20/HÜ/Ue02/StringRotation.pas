@@ -79,13 +79,21 @@ PROGRAM StringRotation;
         Repeat
           b := b + b[1];
           Delete(b, 1, 1);
-          WriteLn(b);
         UNTIL ((a = b) OR (b = initialB))
       END; (* IF *)
       IsRotation := (a = b);
   END; (* IsRotation *)
 
+  VAR a, b: STRING;
+
 BEGIN (* StringRotation *)
-  WriteLn(IsRotation('Hagenberg', 'bergHagen'));
-  WriteLn(IsRotation('Hagenberg', 'berghagen'));
+  REPEAT
+    Write('Enter a > ');
+    ReadLn(a);
+    Write('Enter b > ');
+    ReadLn(b);
+
+    WriteLn('Is ', b, ' a rotation of ', a, '? ', ConcatRotation(a, b), ' (Concat-Rotation)');
+    WriteLn('Is ', b, ' a rotation of ', a, '? ', IsRotation(a, b), ' (Rotation)');
+  UNTIL ((a = '') OR (b = '')); (* REPEAT *)
 END. (* StringRotation *)
