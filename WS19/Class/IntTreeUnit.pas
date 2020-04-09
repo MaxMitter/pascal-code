@@ -179,7 +179,6 @@ IMPLEMENTATION
     END;
 
   PROCEDURE WriteTreePreOrder(t: Tree);
-
     BEGIN
       if t <> NIL then begin
         Write(t^.val, ' ');
