@@ -31,46 +31,51 @@ USES
       END; (* FOR *)
   END; (* Replace *)
 
-  PROCEDURE Transform(t: Tree; VAR line: STRING; toMorse: BOOLEAN);
+  PROCEDURE ToMorseCode(t: Tree; VAR line: STRING);
+    VAR s: STRING;
+        i: INTEGER;
+        n: NodePtr;
+    BEGIN (* ToMorseCode *)
+      line := Upcase(line);
+      s := '';
+      FOR i := 1 TO Length(line) DO BEGIN
+        IF (line[i] = ' ') THEN BEGIN
+          s := Copy(s, 1, Length(s) - 1) + WORD_SEPARATOR;
+        END ELSE IF (line[i] = '.') THEN BEGIN
+          s := Copy(s, 1, Length(s) - 1) + SENTENCE_SEPATATOR;
+        END ELSE BEGIN
+          n := FindNode(t, line[i]);
+          s := s + n^.fullCode + ' ';
+        END; (* IF *)
+      END; (* FOR *)
+
+      line := s;
+  END; (* ToMorseCode *)
+
+  PROCEDURE FromMorseCode(t: Tree; VAR line: STRING);
     VAR s, code: STRING;
         i, j: INTEGER;
         n: NodePtr;
-    BEGIN (* Transform *)
-      IF (toMorse) THEN BEGIN
-        line := Upcase(line);
-        s := '';
-        FOR i := 1 TO Length(line) DO BEGIN
-          IF (line[i] = ' ') THEN BEGIN
-            s := Copy(s, 1, Length(s) - 1) + WORD_SEPARATOR;
-          END ELSE IF (line[i] = '.') THEN BEGIN
-            s := Copy(s, 1, Length(s) - 1) + SENTENCE_SEPATATOR;
-          END ELSE BEGIN
-            n := FindNode(t, line[i]);
-            s := s + n^.fullCode + ' ';
-          END; (* IF *)
-        END; (* FOR *)
-      END ELSE BEGIN
-        s := '';
-        i := 1;
-        REPEAT
-          j := 0;
-          WHILE ((line[i + j] <> ' ') AND (line[i + j] <> WORD_SEPARATOR) AND (line[i + j] <> SENTENCE_SEPATATOR)) DO BEGIN
-            Inc(j);
-          END; (* WHILE *)
-          code := Copy(line, i, j);
-          n := FindNodeByCode(t, code, 1);
-          s := s + n^.letter;
-          IF (line[i + j] <> ' ') THEN
-            s := s + line[i + j];
-          i := i + j + 1;
-        UNTIL (i >= Length(line)); (* REPEAT *)
+    BEGIN (* FromMorseCode *)
+      s := '';
+      i := 1;
+      REPEAT
+        j := 0;
+        WHILE ((line[i + j] <> ' ') AND (line[i + j] <> WORD_SEPARATOR) AND (line[i + j] <> SENTENCE_SEPATATOR)) DO BEGIN
+          Inc(j);
+        END; (* WHILE *)
+        code := Copy(line, i, j);
+        n := FindNodeByCode(t, code, 1);
+        s := s + n^.letter;
+        IF (line[i + j] <> ' ') THEN
+          s := s + line[i + j];
+        i := i + j + 1;
+      UNTIL (i >= Length(line)); (* REPEAT *)
 
-        Replace(s, WORD_SEPARATOR, ' ');
-        Replace(s, SENTENCE_SEPATATOR, '.');
-      END; (* IF *)
-
+      Replace(s, WORD_SEPARATOR, ' ');
+      Replace(s, SENTENCE_SEPATATOR, '.');
       line := s;
-  END; (* Transform *)
+  END; (* FromMorseCode *)
 
   VAR stdOutput: TEXT;
     morseFile: TEXT;
@@ -94,7 +99,11 @@ BEGIN (* Morse *)
     Insert(t, NewNode(line[1], code));
   UNTIL (Eof(morseFile)); (* REPEAT *)
 
-  //WriteTreePreOrder(t);
+  IF (ParamCount <> 3) THEN BEGIN
+    WriteLn('Error: Unknown number of Parameters.');
+    WriteLn('Usage: Morse.exe (-m | -t) <input.txt> <output.txt>');
+    HALT;
+  END; (* IF *)
 
   inputFileName := ParamStr(2);
   Assign(input, inputFileName);
@@ -113,21 +122,26 @@ BEGIN (* Morse *)
   IF (ParamStr(1) = '-m') THEN BEGIN
     REPEAT
       ReadLn(input, line);
-      Transform(t, line, TRUE);
+      ToMorseCode(t, line);
       WriteLn(output, line);
     UNTIL (Eof(input)); (* REPEAT *)
   END ELSE IF (ParamStr(1) = '-t') THEN BEGIN
     REPEAT
       ReadLn(input, line);
-      Transform(t, line, FALSE);
+      FromMorseCode(t, line);
       WriteLn(output, line);
     UNTIL (Eof(input)); (* REPEAT *)
+  END ELSE BEGIN
+    WriteLn('Error: Unknown Parameter ', ParamStr(1));
+    WriteLn('Usage: Morse.exe (-m | -t) <input.txt> <output.txt>');
+    HALT;
   END; (* IF *)
 
 
   Close(input);
   Close(output);
   Close(morseFile);
+  DisposeTree(t);
   output := stdOutput;
   WriteLn('Done!');
 END. (* Morse *)

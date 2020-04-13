@@ -37,12 +37,13 @@ PROGRAM RLE;
         newS: STRING;
         currChar: CHAR;
     BEGIN (* CompressText *)
-      currChar := '0';
+      currChar := s[1];
       newS := '';
       count := 1;
       FOR i := 1 TO Length(s) DO BEGIN
         IF (s[i] = currChar) THEN BEGIN
-          Inc(count);
+          IF (i <> 1) THEN 
+            Inc(count);
         END ELSE BEGIN
           IF (count > 2) THEN BEGIN
             newS := newS + s[i - 1] + ToString(count);
@@ -50,6 +51,7 @@ PROGRAM RLE;
             count := 1;
           END ELSE IF (count = 2) THEN BEGIN
             newS := newS + s[i - 1] + s[i - 1];
+              
             currChar := s[i];
             count := 1;
           END ELSE BEGIN
@@ -65,16 +67,24 @@ PROGRAM RLE;
 
   PROCEDURE DecompressText(VAR s: STRING);
     VAR i, j: INTEGER;
-      newS: STRING;
+      newS, count: STRING;
     BEGIN (* DecompressText *)
       newS := '';
       i := 1;
       WHILE (s[i] <> ENDLINE_SYMBOL) DO BEGIN
         IF (s[i + 1] in ['0'..'9']) THEN BEGIN
-          FOR j := 1 TO ToInt(s[i + 1]) DO BEGIN
+          IF (s[i + 2] in ['0'..'9']) THEN
+            count := Copy(s, i + 1, 2)
+          ELSE
+            count := Copy(s, i + 1, 1);
+
+          FOR j := 1 TO ToInt(count) DO BEGIN
             newS := newS + s[i];
           END; (* FOR *)
-          i := i + 2;
+          IF (ToInt(count) > 9) THEN
+            i := i + 3
+          ELSE
+            i := i + 2;
         END ELSE BEGIN
           newS := newS + s[i];
           Inc(i);
@@ -169,6 +179,10 @@ BEGIN (* RLE *)
 
   REPEAT
     ReadLn(input, line);
+    IF (line[Length(line)] <> ENDLINE_SYMBOL) THEN BEGIN
+      WriteLn('Invalid End of Line Symbol. Expected "$"');
+      HALT;
+    END; (* IF *)
     TransformText(line, compressMode);
     WriteLn(output, line);
   UNTIL (Eof(input)); (* REPEAT *)
