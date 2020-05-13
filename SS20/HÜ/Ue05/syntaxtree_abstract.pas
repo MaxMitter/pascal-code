@@ -127,19 +127,15 @@ IMPLEMENTATION
   FUNCTION ValueOfTreePtr(t: TreePtr): INTEGER;
     BEGIN (* ValueOfTreePtr *)
       IF (t <> NIL) THEN BEGIN
-        IF (Length(t^.val) = 1) THEN BEGIN
-          CASE t^.val[1] OF
-            '+': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) + ValueOfTreePtr(t^.right); END;
-            '-': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) - ValueOfTreePtr(t^.right); END;
-            '*': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) * ValueOfTreePtr(t^.right); END;
-            '/': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) DIV ValueOfTreePtr(t^.right); END;
-          ELSE BEGIN
-            ValueOfTreePtr := ToInt(t^.val);
-            END; (* ELSE *)
-          END; (* CASE *)
-        END ELSE BEGIN
+        CASE t^.val[1] OF
+          '+': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) + ValueOfTreePtr(t^.right); END;
+          '-': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) - ValueOfTreePtr(t^.right); END;
+          '*': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) * ValueOfTreePtr(t^.right); END;
+          '/': BEGIN ValueOfTreePtr := ValueOfTreePtr(t^.left) DIV ValueOfTreePtr(t^.right); END;
+        ELSE BEGIN
           ValueOfTreePtr := ToInt(t^.val);
-        END; (* IF *)
+          END; (* ELSE *)
+        END; (* CASE *)
       END; (* IF *)
   END; (* ValueOfTreePtr *)
 
