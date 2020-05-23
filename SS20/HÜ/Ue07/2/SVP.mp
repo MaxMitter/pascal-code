@@ -1,0 +1,6 @@
+PROGRAM SVP_Fact;
+  VAR
+    N: INTEGER;
+BEGIN
+  n := 0+(17+4)*1;
+END.

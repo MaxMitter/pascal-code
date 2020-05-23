@@ -7,20 +7,22 @@ PROGRAM SynTree;
   USES
     SynTreeUnit;
 
+  FUNCTION ToInt(s: STRING): INTEGER;
+    VAR i, sum: INTEGER;
+    BEGIN (* ToInt *)
+      sum := 0;
+      FOR i := 1 TO Length(s) DO BEGIN
+        sum := sum * 10 + Ord(s[i]) - Ord('0');
+      END; (* FOR *)
+
+      ToInt := sum;
+  END; (* ToInt *)
+
   VAR
     t1: kanTree;
 
 BEGIN (* SynTree *)
 
-  NewTree(t1);
-  line := '2*3+4'; 
-  WriteLn(line); 
-  WriteLn('----------------');
-  S(t1);
-
-  //WriteT(t1);
-
-  WriteTree(t1);
+  Write(Chr(Ord(17) + Ord('0')));
   
-  DisposeTree(t1);
 END. (* SynTree *)
